@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    description: Raw banking data loaded as-is from insert.sql
+    tables:
+      - name: customer
+      - name: branch
+      - name: product
+      - name: account
+      - name: card
+      - name: hist_transactional
