@@ -3,3 +3,7 @@ target/
 dbt_packages/
 logs/
 .env
+scratch/
+.vscode/
+.user.yml
+profiles.yml
