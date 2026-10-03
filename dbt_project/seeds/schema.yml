@@ -1,0 +1,14 @@
+version: 2
+
+seeds:
+  - name: fx_rates
+    description: Illustrative exchange rates used to convert amounts to NPR.
+    columns:
+      - name: currency_code
+        data_tests:
+          - unique
+          - not_null
+
+      - name: rate_to_npr
+        data_tests:
+          - not_null
