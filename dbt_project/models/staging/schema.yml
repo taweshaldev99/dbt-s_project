@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: Cleaned customer data (Silver).
+    columns:
+      - name: cust_id
+        data_tests: [unique, not_null]
+
+  - name: stg_branch
+    description: Cleaned branch data (Silver).
+    columns:
+      - name: branch_id
+        data_tests: [unique, not_null]
+
+  - name: stg_product
+    description: Cleaned product data (Silver).
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+      - name: schm_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['SA', 'CA', 'FD', 'RD', 'LD']
+
+  - name: stg_account
+    description: Cleaned accounts, loaded incrementally with the merge strategy on lchg_time.
+    columns:
+      - name: account_id
+        data_tests: [unique, not_null]
+      - name: acct_cls_flg
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Y', 'N']
+      - name: cust_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_customer')
+                field: cust_id
+      - name: branch_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_branch')
+                field: branch_id
+      - name: product_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_product')
+                field: product_id
+
+  - name: stg_card
+    description: Cleaned cards linked to existing accounts (Silver).
+    columns:
+      - name: card_number
+        data_tests: [unique, not_null]
+      - name: card_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['DEBIT', 'CREDIT']
+      - name: account_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_account')
+                field: account_id
+
+  - name: stg_hist_transactional
+    description: Cleaned transactions, loaded incrementally with the append strategy on created_date.
+    columns:
+      - name: tran_id
+        data_tests: [unique, not_null]
+      - name: tran_direction
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['CREDIT', 'DEBIT']
+      - name: account_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_account')
+                field: account_id

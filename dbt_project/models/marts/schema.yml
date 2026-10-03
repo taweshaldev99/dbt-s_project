@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: Customer dimension.
+    columns:
+      - name: cust_id
+        data_tests: [unique, not_null]
+
+  - name: dim_branch
+    description: Branch dimension.
+    columns:
+      - name: branch_id
+        data_tests: [unique, not_null]
+
+  - name: dim_product
+    description: Product dimension with product_category and product_group (CASA, TERM_DEPOSIT, LOAN).
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+
+  - name: dim_account
+    description: Account dimension.
+    columns:
+      - name: account_id
+        data_tests: [unique, not_null]
+
+  - name: dim_card
+    description: Card dimension with masked card number.
+    columns:
+      - name: card_number
+        data_tests: [unique, not_null]
+
+  - name: fct_account_balance
+    description: One row per account with the balance converted to NPR.
+    columns:
+      - name: account_id
+        data_tests: [unique, not_null]
+
+  - name: fct_transactions
+    description: One row per transaction with amounts converted to NPR and a signed amount.
+    columns:
+      - name: tran_id
+        data_tests: [unique, not_null]
+      - name: account_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_account')
+                field: account_id
+
+  - name: kpi_summary
+    description: All banking KPIs with name, business definition, formula, grouping and value.

@@ -1,9 +1,22 @@
-
+# dbt build artifacts
 target/
 dbt_packages/
 logs/
-.env
-scratch/
-.vscode/
-.user.yml
+
+# Credentials: never commit these
 profiles.yml
+.user.yml
+.env
+
+# Python virtual environment
+proj/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Editor and local scratch files
+.vscode/
+scratch/
+*.session.sql
+.DS_Store
