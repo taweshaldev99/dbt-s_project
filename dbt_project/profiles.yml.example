@@ -1,0 +1,16 @@
+# Copy this file to ~/.dbt/profiles.yml
+# (Windows: C:\Users\<you>\.dbt\profiles.yml) and fill in your own values.
+# Never commit the real profiles.yml.
+
+dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: <your_user>
+      password: <your_password>
+      dbname: <your_database>    # must be the database where the bronze schema was loaded
+      schema: public
+      threads: 2
